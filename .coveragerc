@@ -1,0 +1,7 @@
+[run]
+branch = True
+source = fastdraw
+omit = fastdraw/tests/*,fastdraw/openstack/*
+
+[report]
+ignore-errors = True
