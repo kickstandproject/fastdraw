@@ -20,6 +20,12 @@ from fastdraw.tests import base
 
 class TestCase(base.TestCase):
 
+    def test_answer(self):
+        res = commands.answer()
+        self.assertEqual("same => n,Answer(0)", res)
+        res = commands.answer(delay=1000)
+        self.assertEqual("same => n,Answer(1000)", res)
+
     def test_goto(self):
         res = commands.goto(context='default')
         self.assertEqual("same => n,Goto(default,s,1)", res)

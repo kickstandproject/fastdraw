@@ -15,6 +15,18 @@
 # limitations under the License.
 
 
+def answer(delay=0):
+    """Answer the channel.
+
+    :param delay: The number of milliseconds to wait before moving to the next
+                  priority.
+    :type delay: int
+    """
+    res = 'same => n,Answer(%d)' % delay
+
+    return res
+
+
 def goto(context, exten='s', priority=1):
     res = 'same => n,Goto(%s,%s,%d)' % (context, exten, priority)
 
