@@ -39,3 +39,9 @@ class TestCase(base.TestCase):
         self.assertEqual("same => n,Hangup()", res)
         res = commands.hangup(cause='44')
         self.assertEqual("same => n,Hangup(44)", res)
+
+    def test_noop(self):
+        res = commands.noop()
+        self.assertEqual("same => n,NoOp()", res)
+        res = commands.noop('beep')
+        self.assertEqual("same => n,NoOp(beep)", res)

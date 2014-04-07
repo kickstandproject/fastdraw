@@ -42,3 +42,14 @@ def hangup(cause=''):
     res = 'same => n,Hangup(%s)' % cause
 
     return res
+
+
+def noop(comment=''):
+    """Add a noop
+
+    :param comment: The comment string for this NoOp (default: '')
+    :type comment: string
+    """
+    res = 'same => n,NoOp(%s)' % comment
+
+    return res
