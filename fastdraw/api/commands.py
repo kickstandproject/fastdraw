@@ -19,3 +19,14 @@ def goto(context, exten='s', priority=1):
     res = 'same => n,Goto(%s,%s,%d)' % (context, exten, priority)
 
     return res
+
+
+def hangup(cause=''):
+    """Hangup the calling channel.
+
+    :param cause: Hangup cause code to use for the channel.
+    :type cause: str
+    """
+    res = 'same => n,Hangup(%s)' % cause
+
+    return res

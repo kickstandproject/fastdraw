@@ -27,3 +27,9 @@ class TestCase(base.TestCase):
         self.assertEqual("same => n,Goto(example,555,1)", res)
         res = commands.goto(context='foo', exten='bar', priority=5)
         self.assertEqual("same => n,Goto(foo,bar,5)", res)
+
+    def test_hangup(self):
+        res = commands.hangup()
+        self.assertEqual("same => n,Hangup()", res)
+        res = commands.hangup(cause='44')
+        self.assertEqual("same => n,Hangup(44)", res)
