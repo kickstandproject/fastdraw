@@ -28,6 +28,15 @@ def answer(delay=0):
 
 
 def goto(context, exten='s', priority=1):
+    """Goto another point in the dialplan
+
+    :param context: The context or label to jump to
+    :type context: string
+    :param exten: The extension within that context to goto (default: s)
+    :type exten: string
+    :param priority: The line within the extension (default: 1)
+    :type priority: int
+    """
     res = 'same => n,Goto(%s,%s,%d)' % (context, exten, priority)
 
     return res
