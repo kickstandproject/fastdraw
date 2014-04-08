@@ -16,9 +16,9 @@
 
 
 def join_audio(files):
-    """Concatinate a list of files to be included in dialplan output
+    """Concatinate a list of prompts to be included in dialplan output
 
-    :param files: the list of files to concatinate
+    :param files: the list of prompts to concatinate
     :type files: string list
     """
     if len(files) == 0:

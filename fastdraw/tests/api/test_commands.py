@@ -26,6 +26,23 @@ class TestCase(base.TestCase):
         res = commands.answer(delay=1000)
         self.assertEqual("same => n,Answer(1000)", res)
 
+    def test_background(self):
+        res = commands.background(['beep'])
+        self.assertEqual("same => n,Background(beep)", res)
+        res = commands.background(['beep'], skip=True)
+        self.assertEqual("same => n,Background(beep,s)", res)
+        res = commands.background(['beep'], noanswer=True)
+        self.assertEqual("same => n,Background(beep,n)", res)
+        res = commands.background(['beep'], match=True)
+        self.assertEqual("same => n,Background(beep,m)", res)
+        res = commands.background(['beep'], skip=True, match=True)
+        self.assertEqual("same => n,Background(beep,s,m)", res)
+        res = commands.background(['beep'],
+                                  skip=True, match=True, noanswer=True)
+        self.assertEqual("same => n,Background(beep,s,n,m)", res)
+        res = commands.background(['beep', 'boop'])
+        self.assertEqual("same => n,Background(beep&boop)", res)
+
     def test_goto(self):
         res = commands.goto(context='default')
         self.assertEqual("same => n,Goto(default,s,1)", res)

@@ -30,6 +30,31 @@ def answer(delay=0):
     return res
 
 
+def background(prompts, skip=False, noanswer=False, match=False):
+    """Play sound while waiting for extension
+
+    :param prompts: The files to be played
+    :param prompts: list of strings
+    :param skip: Skips playback if channel is not 'UP' (default: False)
+    :type skip: boolean
+    :param noanswer: Don't answer channel before playing files (default: False)
+    :type noanswer: boolean
+    :param match: Break if a digit matches a 1 digit extension (default: False)
+    :type match: boolean
+    """
+    options = []
+    if skip:
+        options.append('s')
+    if noanswer:
+        options.append('n')
+    if match:
+        options.append('m')
+    res = 'same => n,Background(%s%s)' % (utils.join_audio(prompts),
+                                          utils.join_options(options))
+
+    return res
+
+
 def goto(context, exten='s', priority=1):
     """Goto another point in the dialplan
 
