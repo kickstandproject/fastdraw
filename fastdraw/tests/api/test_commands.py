@@ -45,3 +45,15 @@ class TestCase(base.TestCase):
         self.assertEqual("same => n,NoOp()", res)
         res = commands.noop('beep')
         self.assertEqual("same => n,NoOp(beep)", res)
+
+    def test_playback(self):
+        res = commands.playback(['beep'])
+        self.assertEqual("same => n,Playback(beep)", res)
+        res = commands.playback(['beep'], noanswer=True)
+        self.assertEqual("same => n,Playback(beep,noanswer)", res)
+        res = commands.playback(['beep'], skip=True)
+        self.assertEqual("same => n,Playback(beep,skip)", res)
+        res = commands.playback(['beep'], skip=True, noanswer=True)
+        self.assertEqual("same => n,Playback(beep,skip,noanswer)", res)
+        res = commands.playback(['beep', 'boop'])
+        self.assertEqual("same => n,Playback(beep&boop)", res)

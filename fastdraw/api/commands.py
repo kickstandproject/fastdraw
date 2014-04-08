@@ -15,6 +15,9 @@
 # limitations under the License.
 
 
+from fastdraw.api import utils
+
+
 def answer(delay=0):
     """Answer the channel.
 
@@ -60,5 +63,26 @@ def noop(comment=''):
     :type comment: string
     """
     res = 'same => n,NoOp(%s)' % comment
+
+    return res
+
+
+def playback(prompts, skip=False, noanswer=False):
+    """Playback the specified prompts.
+
+    :param prompts: The files to playback
+    :type prompts: string
+    :param skip: Do not play if not answered (default: False)
+    :type skip: boolean
+    :param noanswer: Playback without answering (default: False)
+    :type noanswer: boolean
+    """
+    options = []
+    if skip:
+        options.append('skip')
+    if noanswer:
+        options.append('noanswer')
+    res = 'same => n,Playback(%s%s)' % (utils.join_audio(prompts),
+                                        utils.join_options(options))
 
     return res
