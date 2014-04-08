@@ -14,6 +14,4 @@
 
 import pbr.version
 
-
-__version__ = pbr.version.VersionInfo(
-    'fastdraw').version_string()
+VERSION_INFO = pbr.version.VersionInfo('ripcord').version_string()

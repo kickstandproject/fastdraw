@@ -18,8 +18,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import os
-
 import fixtures
 from oslo.config import cfg
 import stubout
@@ -52,24 +50,3 @@ class TestCase(testtools.TestCase):
         self.useFixture(conf_fixture.ConfFixture(CONF))
         mox_fixture = self.useFixture(MoxStubout())
         self.stubs = mox_fixture.stubs
-
-    def path_get(self, project_file=None):
-        """Get the absolute path to a file. Used for testing the API.
-
-        :param project_file: File whose path to return. Default: None.
-        :returns: path to the specified file, or path to project root.
-        """
-        root = os.path.abspath(
-            os.path.join(os.path.dirname(__file__), '..', '..')
-        )
-
-        if project_file:
-            return os.path.join(root, project_file)
-        else:
-            return root
-
-    def flags(self, **kw):
-        """Override flag variables for a test."""
-        group = kw.pop('group', None)
-        for k, v in kw.iteritems():
-            CONF.set_override(k, v, group)

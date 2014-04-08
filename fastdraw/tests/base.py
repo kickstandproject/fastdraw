@@ -18,12 +18,13 @@
 import os
 
 import fixtures
-import testtools
+
+from fastdraw import test
 
 _TRUE_VALUES = ('True', 'true', '1', 'yes')
 
 
-class TestCase(testtools.TestCase):
+class TestCase(test.TestCase):
 
     """Test case base class for all unit tests."""
 
