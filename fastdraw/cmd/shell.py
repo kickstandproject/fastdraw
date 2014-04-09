@@ -32,11 +32,12 @@ LOG = log.getLogger(__name__)
 
 def do_update():
     build = builder.Builder()
-    build.update()
+    build.update(filename=CONF.command.filename)
 
 
 def add_command_parsers(subparsers):
     parser = subparsers.add_parser('update')
+    parser.add_argument('filename')
     parser.set_defaults(func=do_update)
 
 

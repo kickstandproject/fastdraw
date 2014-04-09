@@ -44,5 +44,5 @@ class TestCase(testtools.TestCase):
     def test_update(self):
         builder.Builder.update = mock.Mock()
         self._main_test_helper(
-            ['fastdraw.cmd.shell', 'update'],
-            builder.Builder.update)
+            ['fastdraw.cmd.shell', 'update', 'foo.vxml'],
+            builder.Builder.update, filename='foo.vxml')
