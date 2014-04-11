@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from fastdraw.api import utils
+from fastdraw.telephony import utils
 from fastdraw.tests import base
 
 

@@ -15,7 +15,7 @@
 # limitations under the License.
 
 
-from fastdraw.api import utils
+from fastdraw.telephony import utils
 
 
 def answer(delay=0):
