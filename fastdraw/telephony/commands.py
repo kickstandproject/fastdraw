@@ -25,7 +25,7 @@ def answer(delay=0):
                   priority.
     :type delay: int
     """
-    res = 'same => n,Answer(%d)' % delay
+    res = 'Answer(%d)' % delay
 
     return res
 
@@ -49,8 +49,8 @@ def background(prompts, skip=False, noanswer=False, match=False):
         options.append('n')
     if match:
         options.append('m')
-    res = 'same => n,Background(%s%s)' % (utils.join_audio(prompts),
-                                          utils.join_options(options))
+    res = 'Background(%s%s)' % (
+        utils.join_audio(prompts), utils.join_options(options))
 
     return res
 
@@ -65,7 +65,7 @@ def goto(context, exten='s', priority=1):
     :param priority: The line within the extension (default: 1)
     :type priority: int
     """
-    res = 'same => n,Goto(%s,%s,%d)' % (context, exten, priority)
+    res = 'Goto(%s,%s,%d)' % (context, exten, priority)
 
     return res
 
@@ -76,7 +76,7 @@ def hangup(cause=''):
     :param cause: Hangup cause code to use for the channel.
     :type cause: str
     """
-    res = 'same => n,Hangup(%s)' % cause
+    res = 'Hangup(%s)' % cause
 
     return res
 
@@ -87,7 +87,7 @@ def noop(comment=''):
     :param comment: The comment string for this NoOp (default: '')
     :type comment: string
     """
-    res = 'same => n,NoOp(%s)' % comment
+    res = 'NoOp(%s)' % comment
 
     return res
 
@@ -107,7 +107,7 @@ def playback(prompts, skip=False, noanswer=False):
         options.append('skip')
     if noanswer:
         options.append('noanswer')
-    res = 'same => n,Playback(%s%s)' % (utils.join_audio(prompts),
-                                        utils.join_options(options))
+    res = 'Playback(%s%s)' % (
+        utils.join_audio(prompts), utils.join_options(options))
 
     return res
