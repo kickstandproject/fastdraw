@@ -111,3 +111,16 @@ def playback(prompts, skip=False, noanswer=False):
         utils.join_audio(prompts), utils.join_options(options))
 
     return res
+
+
+def setvar(key, value):
+    """Set a variable in dialplan
+
+    :param variable: The variable name
+    :type variable: string
+    :param value: The value to set the variable to
+    :type value: string
+    """
+    res = 'Set(%s=%s)' % (key, value)
+
+    return res

@@ -74,3 +74,9 @@ class TestCase(base.TestCase):
         self.assertEqual("Playback(beep,skip,noanswer)", res)
         res = commands.playback(['beep', 'boop'])
         self.assertEqual("Playback(beep&boop)", res)
+
+    def test_setvar(self):
+        res = commands.setvar(key='beep', value='boop')
+        self.assertEqual("Set(beep=boop)", res)
+        res = commands.setvar(key='beep', value='4')
+        self.assertEqual("Set(beep=4)", res)
