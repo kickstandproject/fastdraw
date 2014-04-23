@@ -15,21 +15,14 @@
 # limitations under the License.
 
 from fastdraw.openstack.common import log as logging
-from fastdraw.parser import vxml
 
 LOG = logging.getLogger(__name__)
 
 
-class Builder(object):
+class VXMLParser(object):
 
     def __init__(self):
-        self.parser = vxml.VXMLParser()
+        pass
 
-    def load_files(self, filename):
-        files_to_parse = [filename]
-        for in_file in files_to_parse:
-            LOG.debug('Parsing VXML file {0}'.format(in_file))
-            self.parser.parse(in_file)
-
-    def update(self, filename):
-        self.load_files(filename)
+    def parse(self, filename):
+        pass
