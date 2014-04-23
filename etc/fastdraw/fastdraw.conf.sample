@@ -1,6 +1,14 @@
 [DEFAULT]
 
 #
+# Options defined in fastdraw.common.exception
+#
+
+# make exception message format errors fatal (boolean value)
+#fatal_exception_format_errors=false
+
+
+#
 # Options defined in fastdraw.openstack.common.log
 #
 
