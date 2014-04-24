@@ -1,6 +1,6 @@
 # vim: tabstop=4 shiftwidth=4 softtabstop=4
 
-# Copyright (C) 2014 PolyBeacon, Inc.
+# Copyright (C) 2013 PolyBeacon, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,25 +14,24 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from lxml import etree
+import os
 
 from fastdraw.common import exception
-from fastdraw.openstack.common import log as logging
+from fastdraw.parser.vxml import VXMLParser
+from fastdraw.tests import base
 
-LOG = logging.getLogger(__name__)
 
+class TestCase(base.TestCase):
+    fixtures_path = os.path.join(os.path.dirname(__file__), 'fixtures')
 
-class VXMLParser(object):
+    def test_parse_pass(self):
+        filepath = os.path.join(self.fixtures_path, 'hello.world.vxml')
+        parser = VXMLParser()
+        parser.parse(filepath)
 
-    def __init__(self):
-        pass
+    def test_parse_fail(self):
+        filepath = os.path.join(self.fixtures_path, 'bad.vxml')
+        parser = VXMLParser()
 
-    def _parse(self, fn):
-        try:
-            etree.parse(fn)
-        except etree.XMLSyntaxError:
-            raise exception.InvalidXML(filename=fn.name)
-
-    def parse(self, filename):
-        with open(filename) as fn:
-            self._parse(fn)
+        self.assertRaises(
+            exception.InvalidXML, parser.parse, filepath)
