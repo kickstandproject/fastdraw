@@ -27,12 +27,23 @@ class VXMLParser(object):
     def __init__(self):
         pass
 
-    def _parse(self, fn):
+    def _load_dtd(self, fn):
         try:
-            etree.parse(fn)
+            data = etree.DTD(fn)
         except etree.XMLSyntaxError:
             raise exception.InvalidXML(filename=fn.name)
+        return data
+
+    def _parse_xml(self, fn):
+        try:
+            data = etree.parse(fn)
+        except etree.XMLSyntaxError:
+            raise exception.InvalidXML(filename=fn.name)
+        return self.dtd.validate(data)
 
     def parse(self, filename):
+        with open('etc/fastdraw/vxml.dtd') as fn:
+            self.dtd = self._load_dtd(fn)
+
         with open(filename) as fn:
-            self._parse(fn)
+            self._parse_xml(fn)
