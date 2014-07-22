@@ -18,8 +18,6 @@ import fixtures
 
 from oslo.config import cfg
 
-from fastdraw.common import config
-
 CONF = cfg.CONF
 
 
@@ -33,5 +31,4 @@ class ConfFixture(fixtures.Fixture):
         super(ConfFixture, self).setUp()
 
         self.conf.set_default('verbose', True)
-        config.parse_args([])
         self.addCleanup(self.conf.reset)
