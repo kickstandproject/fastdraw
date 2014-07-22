@@ -2,7 +2,7 @@
 Fastdraw
 ========
 
-Asterisk dialplan generator
+Metrics, events, and analytics for the Kickstand Project.
 
 * `Official Fastdraw documentation <https://fastdraw.readthedocs.org>`
 
