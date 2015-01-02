@@ -284,6 +284,16 @@
 #syslog_log_facility=LOG_USER
 
 
+[faye]
+
+#
+# Options defined in fastdraw.publisher.faye
+#
+
+# URL for faye service. (string value)
+#url=http://127.0.0.1:4000/faye
+
+
 [matchmaker_redis]
 
 #

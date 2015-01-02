@@ -16,7 +16,7 @@ from stevedore import extension
 from fastdraw import messaging
 from fastdraw.openstack.common import log as logging
 from fastdraw.openstack.common import service as os_service
-from fastdraw.publisher import test as test_publisher
+from fastdraw.publisher import faye as publisher
 
 LOG = logging.getLogger(__name__)
 
@@ -35,8 +35,8 @@ class NotificationService(os_service.Service):
     def start(self):
         super(NotificationService, self).start()
 
-        test = test_publisher.TestPublisher()
-        self.notification_manager = self._get_notifications_manager(test)
+        publish = publisher.FayePublisher()
+        self.notification_manager = self._get_notifications_manager(publish)
 
         if not list(self.notification_manager):
             LOG.warning(
