@@ -28,9 +28,9 @@ class PluginBase(object):
 class NotificationBase(PluginBase):
     """Base class for plugins that support the notification API."""
 
-    def __init__(self, publisher):
+    def __init__(self, publishers):
         super(NotificationBase, self).__init__()
-        self.publisher = publisher
+        self.publishers = publishers
 
     @staticmethod
     def _handle_event_type(event_type, match):
@@ -79,5 +79,6 @@ class NotificationBase(PluginBase):
         if not self._handle_event_type(
                 message['event_type'], self.event_types):
             return
-        self.publisher.publish_samples(
-            list(self.process_notification(message)))
+        for publisher in self.publishers:
+            publisher.publish_samples(
+                list(self.process_notification(message)))

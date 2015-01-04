@@ -15,22 +15,28 @@ import copy
 
 class Sample(object):
 
-    def __init__(self, name, resource_metadata, timestamp, volume):
+    def __init__(
+            self, project_id, name, resource_metadata, timestamp, user_id,
+            volume):
         self.name = name
+        self.project_id = project_id
         self.resource_metadata = resource_metadata
         self.timestamp = timestamp
+        self.user_id = user_id
         self.volume = volume
 
     def as_dict(self):
         return copy.copy(self.__dict__)
 
     @classmethod
-    def from_notification(cls, name, message, volume):
+    def from_notification(cls, name, message, project_id, user_id, volume):
         metadata = copy.copy(message['payload'])
         metadata['event_type'] = message['event_type']
         metadata['host'] = message['publisher_id']
         return cls(
             name=name,
+            project_id=project_id,
             resource_metadata=metadata,
             timestamp=message['metadata']['timestamp'],
+            user_id=user_id,
             volume=volume)

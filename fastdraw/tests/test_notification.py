@@ -20,7 +20,7 @@ from fastdraw import messaging
 from fastdraw import notification
 from fastdraw.openstack.common.fixture import config
 from fastdraw.publisher import test as test_publisher
-from fastdraw.tests import base as tests_base
+from fastdraw import test
 
 TEST_NOTIFICATION = {
     u'event_type': u'queue.enter',
@@ -48,7 +48,7 @@ TEST_NOTIFICATION = {
 }
 
 
-class NotificationServiceTestCase(tests_base.BaseTestCase):
+class NotificationServiceTestCase(test.TestCase):
 
     def setUp(self):
         super(NotificationServiceTestCase, self).setUp()

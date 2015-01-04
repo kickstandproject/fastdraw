@@ -1,6 +1,3 @@
-#
-# Copyright (C) 2013 PolyBeacon, Inc.
-#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -13,9 +10,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from fastdraw.openstack.common import test
+from fastdraw.db import migration
+from fastdraw import test
 
 
-class BaseTestCase(test.BaseTestCase):
+class TestCase(test.TestCase):
+    def setUp(self):
+        super(TestCase, self).setUp()
 
-    pass
+    def test_sync_and_version(self):
+        migration.db_sync()
+        v = migration.db_version()
+        self.assertTrue(v > migration.INIT_VERSION)

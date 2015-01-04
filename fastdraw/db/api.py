@@ -10,23 +10,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import fixtures
-
 from oslo.config import cfg
+
+from fastdraw.openstack.common.db import api as db_api
+from fastdraw.openstack.common import log as logging
 
 CONF = cfg.CONF
 
+_BACKEND_MAPPING = {'sqlalchemy': 'fastdraw.db.sqlalchemy.api'}
 
-class ConfFixture(fixtures.Fixture):
-    """Fixture to manage global conf settings."""
+IMPL = db_api.DBAPI(backend_mapping=_BACKEND_MAPPING)
+LOG = logging.getLogger(__name__)
 
-    def __init__(self, conf):
-        self.conf = conf
 
-    def setUp(self):
-        super(ConfFixture, self).setUp()
-
-        self.conf.set_default('connection', "sqlite://", group='database')
-        self.conf.set_default('sqlite_synchronous', False)
-        self.conf.set_default('verbose', True)
-        self.addCleanup(self.conf.reset)
+def create_resource(name, project_id, resource_id, resource_metadata, user_id):
+    return IMPL.create_resource(
+        name=name, project_id=project_id, resource_id=resource_id,
+        resource_metadata=resource_metadata, user_id=user_id)

@@ -12,3 +12,4 @@ cover/*
 dist/*
 doc/build/*
 etc/fastdraw/fastdraw.conf
+fastdraw/openstack/common/db/fastdraw.sqlite

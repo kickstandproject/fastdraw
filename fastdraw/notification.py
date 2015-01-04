@@ -16,7 +16,8 @@ from stevedore import extension
 from fastdraw import messaging
 from fastdraw.openstack.common import log as logging
 from fastdraw.openstack.common import service as os_service
-from fastdraw.publisher import faye as publisher
+from fastdraw.publisher import database as db_publisher
+from fastdraw.publisher import faye as faye_publisher
 
 LOG = logging.getLogger(__name__)
 
@@ -26,16 +27,20 @@ class NotificationService(os_service.Service):
     NOTIFICATION_NAMESPACE = 'fastdraw.notification'
 
     @classmethod
-    def _get_notifications_manager(cls, publisher):
+    def _get_notifications_manager(cls, publishers):
         return extension.ExtensionManager(
             namespace=cls.NOTIFICATION_NAMESPACE,
             invoke_on_load=True,
-            invoke_args=(publisher, ))
+            invoke_args=(publishers, ))
 
     def start(self):
         super(NotificationService, self).start()
 
-        publish = publisher.FayePublisher()
+        publish = [
+            db_publisher.DatabasePublisher(),
+            faye_publisher.FayePublisher(),
+        ]
+
         self.notification_manager = self._get_notifications_manager(publish)
 
         if not list(self.notification_manager):

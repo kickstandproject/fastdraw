@@ -65,7 +65,7 @@ class NotificationBaseTestCase(test.BaseTestCase):
 
     def _do_test_to_samples(self, plugin_class, match):
         p = test_publisher.TestPublisher()
-        plug = plugin_class(p)
+        plug = plugin_class([p])
 
         plug.to_samples_and_publish(TEST_NOTIFICATION)
 

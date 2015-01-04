@@ -62,6 +62,8 @@ class QueueCaller(PayloadNotificationBase):
         yield sample.Sample.from_notification(
             name=message['event_type'],
             message=message,
+            project_id=None,
+            user_id=None,
             volume=1)
 
 
@@ -80,4 +82,6 @@ class QueueMember(PayloadNotificationBase):
         yield sample.Sample.from_notification(
             name=message['event_type'],
             message=message,
+            project_id=None,
+            user_id=None,
             volume=1)

@@ -10,23 +10,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import fixtures
-
-from oslo.config import cfg
-
-CONF = cfg.CONF
+from sqlalchemy import MetaData
+from sqlalchemy import Table
 
 
-class ConfFixture(fixtures.Fixture):
-    """Fixture to manage global conf settings."""
+def get_table(engine, name):
+    """Returns an sqlalchemy table dynamically from db.
 
-    def __init__(self, conf):
-        self.conf = conf
+    Needed because the models don't work for us in migrations
+    as models will be far out of sync with the current data.
+    """
 
-    def setUp(self):
-        super(ConfFixture, self).setUp()
+    metadata = MetaData()
+    metadata.bind = engine
 
-        self.conf.set_default('connection', "sqlite://", group='database')
-        self.conf.set_default('sqlite_synchronous', False)
-        self.conf.set_default('verbose', True)
-        self.addCleanup(self.conf.reset)
+    return Table(name, metadata, autoload=True)

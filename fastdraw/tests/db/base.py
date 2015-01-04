@@ -10,23 +10,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import fixtures
-
-from oslo.config import cfg
-
-CONF = cfg.CONF
+from fastdraw.db import api
+from fastdraw import test
 
 
-class ConfFixture(fixtures.Fixture):
-    """Fixture to manage global conf settings."""
-
-    def __init__(self, conf):
-        self.conf = conf
+class TestCase(test.TestCase):
 
     def setUp(self):
-        super(ConfFixture, self).setUp()
-
-        self.conf.set_default('connection', "sqlite://", group='database')
-        self.conf.set_default('sqlite_synchronous', False)
-        self.conf.set_default('verbose', True)
-        self.addCleanup(self.conf.reset)
+        super(TestCase, self).setUp()
+        self.db_api = api
