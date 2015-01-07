@@ -12,11 +12,11 @@
 
 """Publish a sample using the Faye pub/sub messaging system."""
 
+from ceilometer.openstack.common import log
+from ceilometer import publisher
 from oslo.config import cfg
 import requests
 import simplejson
-
-from fastdraw.openstack.common import log as logging
 
 OPTS = [
     cfg.StrOpt(
@@ -29,20 +29,24 @@ GROUP = cfg.OptGroup(
 CONF = cfg.CONF
 CONF.register_group(GROUP)
 CONF.register_opts(OPTS, GROUP)
-LOG = logging.getLogger(__name__)
+LOG = log.getLogger(__name__)
 
 
-class FayePublisher(object):
-    def __init__(self):
+class FayePublisher(publisher.PublisherBase):
+
+    def __init__(self, parsed_url):
+        super(FayePublisher, self).__init__(parsed_url)
+
         self.headers = {
             'Content-type': 'application/json',
             'Accept': 'text/plain'
         }
 
-    def publish_samples(self, samples):
-        """Send a message for publishing
+    def publish_samples(self, context, samples):
+        """Send a metering message for publishing
 
-        :param samples: Samples after transformation
+        :param context: Execution context from the service or RPC call
+        :param samples: Samples from pipeline after transformation
         """
         for sample in samples:
             self._faye(sample.as_dict())
@@ -58,4 +62,5 @@ class FayePublisher(object):
             }
         }
         requests.post(
-            CONF.faye.url, data=simplejson.dumps(data), headers=self.headers)
+            CONF.faye.url, data=simplejson.dumps(data), headers=self.headers,
+            verify=False)

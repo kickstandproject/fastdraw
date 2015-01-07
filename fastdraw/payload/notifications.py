@@ -15,11 +15,12 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+from ceilometer.openstack.common import log
+from ceilometer import plugin
+from ceilometer import sample
 from oslo.config import cfg
-import oslo.messaging
 
-from fastdraw import plugin
-from fastdraw import sample
+LOG = log.getLogger(__name__)
 
 OPTS = [
     cfg.StrOpt(
@@ -38,16 +39,16 @@ CONF.register_opts(OPTS, GROUP)
 class PayloadNotificationBase(plugin.NotificationBase):
 
     @staticmethod
-    def get_targets(conf):
-        """Return a sequence of oslo.messaging.Target
-
-        This sequence is defining the exchange and topics to be connected for
-        this plugin.
+    def get_exchange_topics(conf):
+        """Return a sequence of ExchangeTopics defining the exchange and
+        topics to be connected for this plugin.
         """
         return [
-            oslo.messaging.Target(
-                topic=topic, exchange=conf.payload.control_exchange)
-            for topic in conf.notification_topics]
+            plugin.ExchangeTopics(
+                exchange=conf.payload.control_exchange,
+                topics=set(topic + ".info"
+                           for topic in conf.notification_topics)),
+        ]
 
 
 class QueueCaller(PayloadNotificationBase):
@@ -63,7 +64,10 @@ class QueueCaller(PayloadNotificationBase):
             name=message['event_type'],
             message=message,
             project_id=None,
+            resource_id=message['_unique_id'],
+            type=sample.TYPE_GAUGE,
             user_id=None,
+            unit='caller',
             volume=1)
 
 
@@ -83,5 +87,8 @@ class QueueMember(PayloadNotificationBase):
             name=message['event_type'],
             message=message,
             project_id=None,
+            resource_id=message['_unique_id'],
+            type=sample.TYPE_GAUGE,
             user_id=None,
+            unit='member',
             volume=1)
