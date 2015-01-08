@@ -1,8 +1,3 @@
-#
-# Copyright 2013 Intel
-#
-# Author: Shuangtai Tian <shuangtai.tian@intel.com>
-#
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
 # not use this file except in compliance with the License. You may obtain
 # a copy of the License at
@@ -51,7 +46,7 @@ class PayloadNotificationBase(plugin.NotificationBase):
         ]
 
 
-class QueueCaller(PayloadNotificationBase):
+class QueueCallerCRUD(PayloadNotificationBase):
     """Listen for payload queue caller notifications."""
 
     event_types = [
@@ -64,14 +59,29 @@ class QueueCaller(PayloadNotificationBase):
             name=message['event_type'],
             message=message,
             project_id=None,
-            resource_id=message['_unique_id'],
+            resource_id=message['payload']['uuid'],
+            type=sample.TYPE_DELTA,
+            user_id=None,
+            unit='caller',
+            volume=1)
+
+
+class QueueCaller(QueueCallerCRUD):
+    """Listen for payload queue caller notifications."""
+
+    def process_notification(self, message):
+        yield sample.Sample.from_notification(
+            name='queue.caller',
+            message=message,
+            project_id=None,
+            resource_id=message['payload']['uuid'],
             type=sample.TYPE_GAUGE,
             user_id=None,
             unit='caller',
             volume=1)
 
 
-class QueueMember(PayloadNotificationBase):
+class QueueMemberCRUD(PayloadNotificationBase):
     """Listen for payload queue member notifications."""
 
     event_types = [
@@ -87,7 +97,22 @@ class QueueMember(PayloadNotificationBase):
             name=message['event_type'],
             message=message,
             project_id=None,
-            resource_id=message['_unique_id'],
+            resource_id=message['payload']['uuid'],
+            type=sample.TYPE_DELTA,
+            user_id=None,
+            unit='member',
+            volume=1)
+
+
+class QueueMember(QueueMemberCRUD):
+    """Listen for payload queue member notifications."""
+
+    def process_notification(self, message):
+        yield sample.Sample.from_notification(
+            name='queue.member',
+            message=message,
+            project_id=None,
+            resource_id=message['payload']['uuid'],
             type=sample.TYPE_GAUGE,
             user_id=None,
             unit='member',
