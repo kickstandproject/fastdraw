@@ -72,6 +72,33 @@ QUEUE_CALLER_DELETE = {
     u'timestamp': u'2015-01-08 02:15:22.498354',
 }
 
+QUEUE_CALLER_UPDATE = {
+    u'_context_auth_token': None,
+    u'_context_instance_uuid': None,
+    u'_context_is_admin': False,
+    u'_context_read_only': False,
+    u'_context_request_id': u'req-2cd081a1-56a3-435f-9f88-d82a11a866a9',
+    u'_context_show_deleted': False,
+    u'_context_tenant': None,
+    u'_context_user': None,
+    u'_unique_id': u'596f7677762c4553a5a6cda629d508b7',
+    u'event_type': u'queue.caller.update',
+    u'message_id': u'8e5c5d4d-d41f-41e6-bbba-e98f85010185',
+    u'payload': {
+        u'created_at': u'2015-01-13T23:10:51Z',
+        u'name': u'Paul Belanger',
+        u'number': u'6135551234',
+        u'position': 0,
+        u'queue_id': u'cc096e0b-0c96-4b8b-b812-ef456f361ee3',
+        u'status': u'1',
+        u'status_at': u'2015-01-13T23:10:51Z',
+        u'uuid': u'1420683318.7220'
+    },
+    u'priority': u'INFO',
+    u'publisher_id': u'payload.example.net',
+    u'timestamp': u'2015-01-13 23:10:51.490459',
+}
+
 QUEUE_MEMBER_UPDATE = {
     u'_context_auth_token': None,
     u'_context_instance_uuid': None,
@@ -119,9 +146,23 @@ class TestNotifications(base.TestCase):
         ]:
             self.assertEqual(expected, actual, name)
 
-    def test_queue_caller_crud(self):
+    def test_QueueCallerCRUD_create(self):
         counters = list(notifications.QueueCallerCRUD().process_notification(
             QUEUE_CALLER_CREATE))
+        self.assertEqual(1, len(counters))
+        c = counters[0]
+        self.assertEqual(1, c.volume)
+
+    def test_QueueCallerCRUD_delete(self):
+        counters = list(notifications.QueueCallerCRUD().process_notification(
+            QUEUE_CALLER_DELETE))
+        self.assertEqual(1, len(counters))
+        c = counters[0]
+        self.assertEqual(1, c.volume)
+
+    def test_QueueCallerCRUD_update(self):
+        counters = list(notifications.QueueCallerCRUD().process_notification(
+            QUEUE_CALLER_UPDATE))
         self.assertEqual(1, len(counters))
         c = counters[0]
         self.assertEqual(1, c.volume)

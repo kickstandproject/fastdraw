@@ -52,6 +52,7 @@ class QueueCallerCRUD(PayloadNotificationBase):
     event_types = [
         'queue.caller.create',
         'queue.caller.delete',
+        'queue.caller.update',
     ]
 
     def process_notification(self, message):
