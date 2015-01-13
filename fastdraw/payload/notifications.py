@@ -59,7 +59,7 @@ class QueueCallerCRUD(PayloadNotificationBase):
             name=message['event_type'],
             message=message,
             project_id=None,
-            resource_id=message['payload']['uuid'],
+            resource_id=message['payload']['queue_id'],
             type=sample.TYPE_DELTA,
             user_id=None,
             unit='caller',
@@ -85,10 +85,8 @@ class QueueMemberCRUD(PayloadNotificationBase):
     """Listen for payload queue member notifications."""
 
     event_types = [
-        'queue.member.add',
         'queue.member.create',
         'queue.member.delete',
-        'queue.member.remove',
         'queue.member.update',
     ]
 
@@ -97,7 +95,7 @@ class QueueMemberCRUD(PayloadNotificationBase):
             name=message['event_type'],
             message=message,
             project_id=None,
-            resource_id=message['payload']['uuid'],
+            resource_id=message['payload']['queue_id'],
             type=sample.TYPE_DELTA,
             user_id=None,
             unit='member',
